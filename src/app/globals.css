@@ -1,26 +1,93 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #0f172a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* Print Specific Rules for High-Res 2-Up Side-by-Side PDF Export */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 6mm 8mm;
+  }
+
+  /* Hide everything except printable sheets */
+  body {
+    background: white !important;
+    color: black !important;
+    overflow: visible !important;
+    font-size: 11pt;
+  }
+
+  .no-print,
+  header,
+  aside,
+  nav,
+  button,
+  .print-controls {
+    display: none !important;
+  }
+
+  /* Printable sheet styling */
+  .printable-sheet {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    min-height: 98vh !important;
+    padding: 10mm 12mm !important;
+    box-sizing: border-box !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    transform: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+
+  .printable-sheet:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .sheet-header,
+  .sheet-footer {
+    display: flex !important;
+    width: 100% !important;
+  }
+
+  .sheet-body {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16mm !important;
+    flex: 1 !important;
+  }
+
+  .song-col-left,
+  .song-col-right {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+
+  /* Make chords crisp black or dark blue in print */
+  .font-mono {
+    font-family: "Courier New", Courier, monospace !important;
+    font-weight: 700 !important;
+  }
 }
